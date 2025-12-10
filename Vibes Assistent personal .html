@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibes Assistant Pro - Advanced Chat</title>
+    <style>
+        /* Professional CSS Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #4a69bd, #60a3bc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 450px;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .user-msg {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .bot-msg {
+            background-color: #e9ecef;
+            color: black;
+            align-self: flex-start;
+        }
+        .input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        #user-input {
+            flex-grow: 1;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 22px 0 0 22px;
+            outline: none;
+            font-size: 16px;
+        }
+        #send-btn {
+            padding: 0 25px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 0 22px 22px 0;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">Vibes Assistant Pro</div>
+    <div id="chat-box">
+        <div class="message bot-msg">Hello! I am Pradeep Rastogi, your Vibes Assistant Pro. Ask me about HTML, CSS, YouTube, or general things!</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+    // JavaScript Logic (Essential for AI responses)
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const userText = userInput.value.trim();
+        if (userText === '') return;
+        appendMessage(userText, 'user-msg');
+        userInput.value = '';
+
+        setTimeout(() => {
+            const botResponse = generateBotResponse(userText);
+            appendMessage(botResponse, 'bot-msg');
+        }, 600);
+    }
+
+    function appendMessage(text, type) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', type);
+        msgDiv.textContent = text;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Updated AI Logic with specific knowledge base
+    function generateBotResponse(input) {
+        const lowerInput = input.toLowerCase();
+
+        // Specific responses for the name/greetings
+        if (lowerInput.includes('what is your name') || lowerInput.includes('who are you') || lowerInput.includes('apka naam')) {
+            return 'My name is Pradeep Rastogi (Vibes Assistant Pro).';
+        } else if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey')) {
+            return 'Hello there! How can I assist you today?';
+        } else if (lowerInput.includes('how are you')) {
+            return "I'm doing well, thanks for asking! Ready to help.";                              
+        } 
+        
+        // Specific knowledge questions (New additions)
+        else if (lowerInput.includes('what is html')) {
+            return 'HTML stands for HyperText Markup Language. It is the standard language used to create web pages.';
+        } else if (lowerInput.includes('what is css')) {
+            return 'CSS stands for Cascading Style Sheets. It is used to control the presentation, formatting, and layout of web pages.';
+        } else if (lowerInput.includes('what is javascript') || lowerInput.includes('what is js')) {
+            return 'JavaScript is a programming language that enables interactive web pages. It is essential for web development!';
+        } else if (lowerInput.includes('what is youtube') || lowerInput.includes('about youtube')) {
+            return 'YouTube is a massive video sharing platform where users can watch, upload, and share videos.';
+        } else if (lowerInput.includes('what is chatgpt') || lowerInput.includes('about chat gpt')) {
+            return 'ChatGPT is a powerful AI chatbot developed by OpenAI. It uses advanced machine learning to generate human-like conversation.';
+        }
+        
+        // Default response for anything else
+        else {
+            return "I am sorry, I do not understand that specific request. I only know predefined answers related to HTML, CSS, JS, YouTube, and general greetings.";
+        }
+    }
+</script>
+
+</body>
+</html>
